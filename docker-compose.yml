@@ -1,0 +1,41 @@
+# $ docker run -it -v ~/Desktop/product-register:/product-register -p 3000:3000 <image> bash
+# 　としても良いが、毎回この長いコードを打つのは大変のため、docker-compose.ymlを作り、上記を代替する
+
+
+#今は、version: '3'が使われるため、これは覚えれば良い
+version: '3'
+
+volumes:
+  db-data:
+
+services:
+  #「 web: 」 または、 「 app:」 とすることが多い（１つのコンテナを指す）
+  web:
+    #build情報を記載。今回は、カレントディレクトリ（host）
+    build: .
+    #hostの３０００というポートをコンテナの3000というポートにpublishする。左、コンテナ。右、host。
+    ports:
+      - '3000:3000'
+    volumes:
+      #hostのカレントディレクトリフォルダを、Dockerfilの WORKDIRで作られたコンテナのproduct-resisterフォルダにマウント
+      #マウント先は相対パスにする。（絶対パスにすると他人が　使えなくなるため）
+      - '.:/product-register'
+    environment:
+      - 'DATABASE_PASSWORD=postgres'
+    #以下２行は、-itの役割をする
+    tty: true
+    stdin_open: true
+    #dbコンテナがないとwebコンテナは起動しない
+    depends_on:
+      - db
+    #dbコンテナを参照
+    links:
+      - db
+
+  db:
+    image: postgres
+    volumes:
+      - 'db-data:/var/lib/postgresql/data'
+    environment:
+      - 'POSTGRES_USER=postgres'
+      - 'POSTGRES_PASSWORD=postgres'
