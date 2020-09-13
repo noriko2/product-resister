@@ -40,4 +40,4 @@ services:
       - 'POSTGRES_USER=postgres'
       - 'POSTGRES_PASSWORD=postgres'
       #ローカル環境以外でもpostgresqlが動くようにする
-      - 'POSTGRES_HOST_AUTH_METHOD=trustgres'
+      - 'POSTGRES_HOST_AUTH_METHOD=trust'
