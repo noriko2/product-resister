@@ -6,7 +6,7 @@ before_install:
   #テスト用に必要
   - docker-compose up --build -d
   #herokuのレジストリにログイン
-  - docker login -u "$HEROKU_USER_NAME" -p "$HEROKU_API_KEY" registory.heroku.com
+  - docker login -u "$HEROKU_USERNAME" -p "$HEROKU_API_KEY" registory.heroku.com
 
 script:
   - docker-compose exec --env 'RAILS_ENV=test' web rails db:create
