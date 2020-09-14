@@ -17,7 +17,7 @@ deploy:
   provider: script
   script:
     # 「;」で文をつなげる
-    docker build -t registry.heroku.com/$HEROKU_APPP_NAME/web -f Dockerfile.prod .;
+    docker build -t registry.heroku.com/$HEROKU_APP_NAME/web -f Dockerfile.prod .;
     docker push registry.heroku.com/$HEROKU_APP_NAME/web;
     heroku run --app $HEROKU_APP_NAME rails db:migrate;
   #デプロイはmasterにmergeされた時だけ
